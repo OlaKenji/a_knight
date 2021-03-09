@@ -41,7 +41,7 @@ while True:
 
     link.move()
     Engine.check_collisions(hero,platforms,'Player')
-    print('hej')
+    print('hej hej hej')
     draw()
     pygame.display.update()#update after every change
     clock.tick(60)#limmit FPS
