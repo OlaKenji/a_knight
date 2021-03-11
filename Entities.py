@@ -2,33 +2,41 @@ import pygame, sys
 
 class player(pygame.sprite.Sprite):
 
-    images={1: pygame.image.load("sprites/Walk1.png"),
-            2: pygame.image.load("sprites/Walk2.png"),
-            3: pygame.image.load("sprites/Sword1.png"),
-            4: pygame.image.load("sprites/Sword2.png")}
+    images={1: pygame.image.load("sprites/Walk1.png"),#right
+            2: pygame.image.load("sprites/Walk2.png"),#right
+            3: pygame.transform.flip(pygame.image.load("sprites/Walk1.png"),True,False),#left
+            4: pygame.transform.flip(pygame.image.load("sprites/Walk2.png"),True,False)}#left
 
-    velocity=[2,1]
+    images_sword={1: pygame.image.load("sprites/Sword1.png"),#right
+                  2: pygame.image.load("sprites/Sword2.png"),#right
+                  3: pygame.transform.flip(pygame.image.load("sprites/Sword1.png"),True, False),#left
+                  4: pygame.transform.flip(pygame.image.load("sprites/Sword2.png"),True, False),#left
+                  5: pygame.image.load("sprites/Sword3.png"),#up-right
+                  6: pygame.image.load("sprites/Sword4.png"),#up-right
+                  7: pygame.transform.flip(pygame.image.load("sprites/Sword3.png"),True, False),##up-left
+                  8: pygame.transform.flip(pygame.image.load("sprites/Sword4.png"),True, False)}##up-left
+
+    velocity=[0,0]
+    acceleration=[2,1]
+    friction=0.2
 
     def __init__(self,pos):
         super().__init__()
-        self.frame=1
-        self.image = self.images[self.frame]
+        self.image = self.images[1]
         self.rect = self.image.get_rect()
         self.rect.topleft = pos
         #self.hitbox = self.rect.copy()
-        self.movement=[0,1]
+        self.movement=[0,0]
+        self.dir=[1,0]#[horixontal (right 1, left -1),vertical (up 1, down -1)]
         self.alive=True
-        self.air_timer=10
-        self.action='stand'
-        self.sword_timer=10
+        self.frame={'stand':1,'run':1,'sword':1}
+        self.action={'stand':True,'run':False,'sword':False,'jump':True}
+        self.frame_timer={'run':10,'sword':10,'jump':10}
 
     def move(self):#define the movements
-        self.movement[1]+=1#gravity
-        self.air_timer+=1#air timer
+        self.frame_timer['jump']+=1#air timer
 
-        if self.movement[1]>5:#set a y max speed
-            self.movement[1]=5
-
+        #game input
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 pygame.quit()
@@ -36,48 +44,37 @@ class player(pygame.sprite.Sprite):
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT:
-                    self.movement[0]=self.velocity[0]
-                    self.action='run'
+                    self.action['run']=True
+                    self.action['stand']=False
+                    self.dir[0]=1
                 if event.key == pygame.K_LEFT:
-                    self.movement[0]=-self.velocity[0]
-                    self.action='run'
-                if event.key==pygame.K_SPACE and self.air_timer<10:#jump
+                    self.action['run']=True
+                    self.action['stand']=False
+                    self.dir[0]=-1
+                if event.key == pygame.K_UP:#press up
+                    self.dir[1]=1
+                if event.key == pygame.K_DOWN:#press down
+                    self.dir[1]=-1
+                if event.key==pygame.K_SPACE and self.frame_timer['jump']<10:#jump
                     self.movement[1]=-10
-                    self.action='jump'
+                    self.action['jump']=True
                 if event.key==pygame.K_f:
-                    self.action='sword'
-                    self.sword_timer=0
-                    self.frame=0
+                    self.action['sword']=True
 
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_RIGHT and self.movement[0]>0:
-                    self.movement[0]=0
-                    self.action='stand'
-                if event.key == pygame.K_LEFT and self.movement[0]<0:
-                    self.movement[0]=0
-                    self.action='stand'
-                if event.key==pygame.K_f:
-                    self.action='stand'
+            elif event.type == pygame.KEYUP:#lift bottom
+                if event.key == pygame.K_RIGHT:
+                    self.action['stand']=True
+                    self.action['run']=False
+                if event.key == pygame.K_LEFT:
+                    self.action['stand']=True
+                    self.action['run']=False
+                if event.key == pygame.K_UP:
+                    self.dir[1]=0
+                if event.key == pygame.K_DOWN:
+                    self.dir[1]=0
 
     def update(self,pos):
         self.rect.topleft = [self.rect.topleft[0] + pos[0], self.rect.topleft[1] + pos[1]]
-        self.set_image()#update the image
-        self.sword_timer+=1
-
-    def set_image(self):
-        if self.action=='run' and self.sword_timer>2:
-            self.frame+=1
-            if self.frame>59:
-                self.frame=1
-            self.image = self.images[self.frame//30+1]
-        elif self.action=='sword':
-            self.frame+=1
-            if self.frame>2:
-                self.frame=1
-            self.image = self.images[self.frame//2+3]
-        elif self.action=='stand' and self.sword_timer>2:
-            self.frame=1
-            self.image = self.images[self.frame]
 
 class Block(pygame.sprite.Sprite):
 
@@ -95,3 +92,25 @@ class Block(pygame.sprite.Sprite):
     def update(self,pos):
         self.rect.topleft = [self.rect.topleft[0] + pos[0], self.rect.topleft[1] + pos[1]]
         #self.hitbox = self.rect.inflate(0,0)
+
+class Items():
+
+    def __init__(self,entity):
+        super().__init__()
+
+        self.movement=[0,0]
+        self.rect=pygame.Rect(entity.rect.midright[0],entity.rect.midright[1],10,15)
+
+    def update(self,entity):
+        if entity.dir[0]>0:#right
+            self.rect=pygame.Rect(entity.rect.midright[0],entity.rect.midright[1]-5,10,15)
+        elif entity.dir[0]<0:#left
+            self.rect=pygame.Rect(entity.rect.midleft[0]-10,entity.rect.midleft[1]-5,10,15)
+        elif entity.dir[1]>0:#up
+            self.rect=pygame.Rect(entity.rect.midtop[0],entity.rect.midtop[1],10,20)
+
+
+#class Sword(Items):
+#    def __init__(self,entity):
+#        super().__init__()
+#        self.rect.center = entity.rect.midright

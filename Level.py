@@ -23,7 +23,7 @@ class Tilemap():
 
 
 #________________chunks#
-    def divide_chunks(self,path):#devide the data into chunks
+    def define_chunks(self,path):#devide the data into chunks
         map=self.read_csv(path)
         for k in range(len(map[0])//self.chunk_size):#Row: number of chunks
             for j in range(len(map[:][0])//self.chunk_size):#Column: number of chunks
