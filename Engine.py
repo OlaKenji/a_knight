@@ -12,7 +12,8 @@ class Collisions():
             if collision_types['bottom']:
                 entity.frame_timer['jump']=0
                 entity.action['jump']=False
-                entity.action['sword']=False
+                if entity.dir[1]<0:
+                    entity.action['sword']=False
             elif collision_types['top']:#knock back when hit head
                 entity.movement[1]=1
 
