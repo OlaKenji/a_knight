@@ -5,7 +5,8 @@ class player(pygame.sprite.Sprite):
     images={1: pygame.image.load("sprites/Walk1.png"),#right
             2: pygame.image.load("sprites/Walk2.png"),#right
             3: pygame.transform.flip(pygame.image.load("sprites/Walk1.png"),True,False),#left
-            4: pygame.transform.flip(pygame.image.load("sprites/Walk2.png"),True,False)}#left
+            4: pygame.transform.flip(pygame.image.load("sprites/Walk2.png"),True,False),
+            5: pygame.image.load("sprites/Jump.png")}#left
 
     images_sword={1: pygame.image.load("sprites/Sword1.png"),#right
                   2: pygame.image.load("sprites/Sword2.png"),#right
@@ -14,7 +15,9 @@ class player(pygame.sprite.Sprite):
                   5: pygame.image.load("sprites/Sword3.png"),#up-right
                   6: pygame.image.load("sprites/Sword4.png"),#up-right
                   7: pygame.transform.flip(pygame.image.load("sprites/Sword3.png"),True, False),##up-left
-                  8: pygame.transform.flip(pygame.image.load("sprites/Sword4.png"),True, False)}##up-left
+                  8: pygame.transform.flip(pygame.image.load("sprites/Sword4.png"),True, False),##up-left
+                  9: pygame.image.load("sprites/Jumpsword1.png"),#jump down
+                  10: pygame.image.load("sprites/Jumpsword2.png")}#jump down
 
     velocity=[0,0]
     acceleration=[2,1]
@@ -102,14 +105,14 @@ class Items():
         self.rect=pygame.Rect(entity.rect.midright[0],entity.rect.midright[1],10,15)
 
     def update(self,entity):
-        if entity.dir[0]>0:#right
+        if entity.dir[0]>0 and entity.dir[1]==0:#right
             self.rect=pygame.Rect(entity.rect.midright[0],entity.rect.midright[1]-5,10,15)
-        elif entity.dir[0]<0:#left
+        elif entity.dir[0]<0 and entity.dir[1]==0:#left
             self.rect=pygame.Rect(entity.rect.midleft[0]-10,entity.rect.midleft[1]-5,10,15)
         elif entity.dir[1]>0:#up
             self.rect=pygame.Rect(entity.rect.midtop[0],entity.rect.midtop[1],10,20)
-
-
+        elif entity.dir[1]<0:#down
+            self.rect=pygame.Rect(entity.rect.midtop[0],entity.rect.midtop[1]+20,10,20)
 #class Sword(Items):
 #    def __init__(self,entity):
 #        super().__init__()

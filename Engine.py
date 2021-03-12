@@ -12,6 +12,7 @@ class Collisions():
             if collision_types['bottom']:
                 entity.frame_timer['jump']=0
                 entity.action['jump']=False
+                entity.action['sword']=False
             elif collision_types['top']:#knock back when hit head
                 entity.movement[1]=1
 
@@ -96,13 +97,19 @@ class Animation():
             elif entity.action['sword']==True and entity.dir[1]>0 and entity.dir[0]<0:#sword up-left
                 entity.image=entity.images_sword[entity.frame['sword']//5+7]
                 entity.frame['sword']+=1
-            elif entity.action['sword']==True and entity.dir[0]>0:#sword right
+            elif entity.action['sword']==True and entity.dir[0]>0 and entity.dir[1]==0:#sword right
                 entity.image=entity.images_sword[entity.frame['sword']//5+1]
                 entity.frame['sword']+=1
-            elif entity.action['sword']==True and entity.dir[0]<0:#sword left
+            elif entity.action['sword']==True and entity.dir[0]<0 and entity.dir[1]==0:#sword left
                 entity.image=entity.images_sword[entity.frame['sword']//5+3]
                 entity.frame['sword']+=1
+            elif entity.action['sword']==True and entity.action['jump']==True and entity.dir[1]<0:#jump down
+                entity.image=entity.images_sword[entity.frame['sword']//5+9]
+                entity.frame['sword']+=1
 
+            #jump
+            elif entity.action['jump']==True and not entity.action['sword']:#jump down
+                entity.image=entity.images[5]
             #run
             elif entity.action['run']==True and entity.dir[0]>0:#run right
                 entity.image=entity.images[entity.frame['run']//5+1]
