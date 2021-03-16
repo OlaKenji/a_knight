@@ -8,6 +8,9 @@ pygame.init()#initilise
 screen=pygame.display.set_mode((800,600))
 clock=pygame.time.Clock()
 
+
+game_font=pygame.font.Font('freesansbold.ttf',25)
+
 platforms = pygame.sprite.Group()
 hero = pygame.sprite.Group()
 
@@ -46,6 +49,8 @@ while True:
     Engine.Physics.movement(hero)
 
     Action.swing_sword(hero,platforms)
+
+    #pygame.draw.rect(screen, (255,0,0), knight.rect,2)#testing hitbox
 
     draw()
     pygame.display.update()#update after every change

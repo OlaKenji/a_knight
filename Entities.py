@@ -2,22 +2,64 @@ import pygame, sys
 
 class player(pygame.sprite.Sprite):
 
-    images={1: pygame.image.load("sprites/Walk1.png"),#right
-            2: pygame.image.load("sprites/Walk2.png"),#right
-            3: pygame.transform.flip(pygame.image.load("sprites/Walk1.png"),True,False),#left
-            4: pygame.transform.flip(pygame.image.load("sprites/Walk2.png"),True,False),
-            5: pygame.image.load("sprites/Jump.png")}#left
+    images={1: pygame.image.load("sprites/HeroKnight_Run_0.png"),#right
+            2: pygame.image.load("sprites/HeroKnight_Run_1.png"),#right
+            3: pygame.image.load("sprites/HeroKnight_Run_2.png"),#right
+            4: pygame.image.load("sprites/HeroKnight_Run_3.png"),#right
+            5: pygame.image.load("sprites/HeroKnight_Run_4.png"),#right
+            6: pygame.image.load("sprites/HeroKnight_Run_5.png"),#right
+            7: pygame.image.load("sprites/HeroKnight_Run_6.png"),#right
+            8: pygame.image.load("sprites/HeroKnight_Run_7.png"),#right
+            9: pygame.image.load("sprites/HeroKnight_Run_8.png"),#right
+            10: pygame.image.load("sprites/HeroKnight_Run_9.png"),#right
+            11: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Run_0.png"),True,False),#left
+            12: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Run_1.png"),True,False),#left
+            13: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Run_2.png"),True,False),#left
+            14: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Run_3.png"),True,False),#left
+            15: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Run_4.png"),True,False),#left
+            16: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Run_5.png"),True,False),#left
+            17: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Run_6.png"),True,False),#left
+            18: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Run_7.png"),True,False),#left
+            19: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Run_8.png"),True,False),#left
+            20: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Run_9.png"),True,False),#left
+            21: pygame.image.load("sprites/HeroKnight_Jump_0.png"),#jumpright
+            22: pygame.image.load("sprites/HeroKnight_Jump_1.png"),#jumpright
+            23: pygame.image.load("sprites/HeroKnight_Jump_2.png"),#jumpright
+            24: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Jump_0.png"),True,False),#jumpleft
+            25: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Jump_1.png"),True,False),#jumpleft
+            26: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Jump_2.png"),True,False)}#jumpleft
 
-    images_sword={1: pygame.image.load("sprites/Sword1.png"),#right
-                  2: pygame.image.load("sprites/Sword2.png"),#right
-                  3: pygame.transform.flip(pygame.image.load("sprites/Sword1.png"),True, False),#left
-                  4: pygame.transform.flip(pygame.image.load("sprites/Sword2.png"),True, False),#left
-                  5: pygame.image.load("sprites/Sword3.png"),#up-right
-                  6: pygame.image.load("sprites/Sword4.png"),#up-right
-                  7: pygame.transform.flip(pygame.image.load("sprites/Sword3.png"),True, False),##up-left
-                  8: pygame.transform.flip(pygame.image.load("sprites/Sword4.png"),True, False),##up-left
-                  9: pygame.image.load("sprites/Jumpsword1.png"),#jump down
-                  10: pygame.image.load("sprites/Jumpsword2.png")}#jump down
+    images_sword={1: pygame.image.load("sprites/HeroKnight_Attack3_0.png"),#right
+                  2: pygame.image.load("sprites/HeroKnight_Attack3_1.png"),#right
+                  3: pygame.image.load("sprites/HeroKnight_Attack3_2.png"),#right
+                  4: pygame.image.load("sprites/HeroKnight_Attack3_3.png"),#right
+                  5: pygame.image.load("sprites/HeroKnight_Attack3_4.png"),#right
+                  6: pygame.image.load("sprites/HeroKnight_Attack3_5.png"),#right
+                  7: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack3_0.png"),True, False),#left
+                  8: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack3_1.png"),True, False),#left
+                  9: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack3_2.png"),True, False),#left
+                  10: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack3_3.png"),True, False),#left
+                  11: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack3_4.png"),True, False),#left
+                  12: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack3_5.png"),True, False),#left
+                  13: pygame.image.load("sprites/HeroKnight_Attack1_0.png"),#upright
+                  14: pygame.image.load("sprites/HeroKnight_Attack1_1.png"),#upright
+                  15: pygame.image.load("sprites/HeroKnight_Attack1_2.png"),#upright
+                  16: pygame.image.load("sprites/HeroKnight_Attack1_3.png"),#upright
+                  17: pygame.image.load("sprites/HeroKnight_Attack1_4.png"),#upright
+                  18: pygame.image.load("sprites/HeroKnight_Attack1_5.png"),#upright
+                  19: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack1_0.png"),True, False),#upleft
+                  20: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack1_1.png"),True, False),#upleft
+                  21: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack1_2.png"),True, False),#upleft
+                  22: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack1_3.png"),True, False),#upleft
+                  23: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack1_4.png"),True, False),#upleft
+                  24: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack1_5.png"),True, False),#upleft
+                  25: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack2_0.png"),True, False),#down
+                  26: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack2_1.png"),True, False),#down
+                  27: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack2_2.png"),True, False),#down
+                  28: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack2_3.png"),True, False),#down
+                  29: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack2_4.png"),True, False),#down
+                  30: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack2_5.png"),True, False)}#down
+
 
     velocity=[0,0]
     acceleration=[2,1]
@@ -26,18 +68,17 @@ class player(pygame.sprite.Sprite):
     def __init__(self,pos):
         super().__init__()
         self.image = self.images[1]
-        self.rect = self.image.get_rect()
-        self.rect.topleft = pos
+        self.rect = self.image.get_rect(center=pos)
+        self.rect=self.rect.inflate(-20,-2)
         #self.hitbox = self.rect.copy()
         self.movement=[0,0]
         self.dir=[1,0]#[horixontal (right 1, left -1),vertical (up 1, down -1)]
         self.alive=True
-        self.frame={'stand':1,'run':1,'sword':1}
-        self.action={'stand':True,'run':False,'sword':False,'jump':True}
-        self.frame_timer={'run':10,'sword':10,'jump':10}
+        self.frame={'stand':1,'run':1,'sword':1,'jump':1}
+        self.action={'stand':True,'run':False,'sword':False,'jump':False}
+        self.frame_timer={'run':40,'sword':18,'jump':21}
 
     def move(self):#define the movements
-        self.frame_timer['jump']+=1#air timer
 
         #game input
         for event in pygame.event.get():
@@ -58,7 +99,7 @@ class player(pygame.sprite.Sprite):
                     self.dir[1]=1
                 if event.key == pygame.K_DOWN:#press down
                     self.dir[1]=-1
-                if event.key==pygame.K_SPACE and self.frame_timer['jump']<10:#jump
+                if event.key==pygame.K_SPACE and self.action['jump']==False:#jump
                     self.movement[1]=-10
                     self.action['jump']=True
                 if event.key==pygame.K_f:
@@ -95,7 +136,7 @@ class Block(pygame.sprite.Sprite):
     def update(self,pos):
         self.rect.topleft = [self.rect.topleft[0] + pos[0], self.rect.topleft[1] + pos[1]]
         #self.hitbox = self.rect.inflate(0,0)
-
+        
 class Items():
 
     def __init__(self,entity):
@@ -106,13 +147,13 @@ class Items():
 
     def update(self,entity):
         if entity.dir[0]>0 and entity.dir[1]==0:#right
-            self.rect=pygame.Rect(entity.rect.midright[0],entity.rect.midright[1]-5,10,15)
+            self.rect=pygame.Rect(entity.rect.midright[0],entity.rect.midright[1]-5,10,20)
         elif entity.dir[0]<0 and entity.dir[1]==0:#left
-            self.rect=pygame.Rect(entity.rect.midleft[0]-10,entity.rect.midleft[1]-5,10,15)
+            self.rect=pygame.Rect(entity.rect.midleft[0]-10,entity.rect.midleft[1]-5,10,20)
         elif entity.dir[1]>0:#up
-            self.rect=pygame.Rect(entity.rect.midtop[0],entity.rect.midtop[1],10,20)
+            self.rect=pygame.Rect(entity.rect.midtop[0],entity.rect.midtop[1]-20,10,20)
         elif entity.dir[1]<0:#down
-            self.rect=pygame.Rect(entity.rect.midtop[0],entity.rect.midtop[1]+20,10,20)
+            self.rect=pygame.Rect(entity.rect.midtop[0],entity.rect.midtop[1]+50,10,20)
 #class Sword(Items):
 #    def __init__(self,entity):
 #        super().__init__()
