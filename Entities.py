@@ -106,10 +106,10 @@ class player(pygame.sprite.Sprite):
                     self.action['sword']=True
 
             elif event.type == pygame.KEYUP:#lift bottom
-                if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT and self.dir[0]>0:
                     self.action['stand']=True
                     self.action['run']=False
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT and self.dir[0]<0:
                     self.action['stand']=True
                     self.action['run']=False
                 if event.key == pygame.K_UP:
@@ -136,7 +136,7 @@ class Block(pygame.sprite.Sprite):
     def update(self,pos):
         self.rect.topleft = [self.rect.topleft[0] + pos[0], self.rect.topleft[1] + pos[1]]
         #self.hitbox = self.rect.inflate(0,0)
-        
+
 class Items():
 
     def __init__(self,entity):
