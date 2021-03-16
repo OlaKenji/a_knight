@@ -157,6 +157,7 @@ class Items():
             self.rect=pygame.Rect(entity.hitbox.midtop[0],entity.hitbox.midtop[1]-50,10,20)
         elif entity.dir[1]<0:#down
             self.rect=pygame.Rect(entity.hitbox.midtop[0],entity.hitbox.midtop[1]+50,10,20)
+            
 #class Sword(Items):
 #    def __init__(self,entity):
 #        super().__init__()

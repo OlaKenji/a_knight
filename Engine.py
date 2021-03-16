@@ -14,6 +14,8 @@ class Collisions():
                 if entity.dir[1]<0:#if on ground, cancel sword swing
                     entity.action['sword']=False
                     entity.frame['sword']=1
+            elif not collision_types['bottom']:
+                entity.action['jump']=True
             elif collision_types['top']:#knock back when hit head
                 entity.movement[1]=1
 
@@ -25,12 +27,11 @@ class Collisions():
         #move in x every dynamic sprite
         for entity in dynamic_entties.sprites():
             entity.rect.center = [round(entity.rect.center[0] + entity.movement[0]), entity.rect.center[1] + 0]
-            entity.hitbox.center = entity.rect.center
-            collided=Collisions.collided
+            entity.hitbox.center = entity.rect.center#follow with hitbox
 
+        collided=Collisions.collided#make the hitbox collide and not rect
         #check for collisions and get a dictionary of sprites that collides
         collisions=pygame.sprite.groupcollide(dynamic_entties,static_enteties,False,False,collided)
-
         for dyn_entity, stat_entity in collisions.items():
             if dyn_entity.movement[0]>0:#going to the right
                 dyn_entity.hitbox.right = stat_entity[0].rect.left
@@ -41,12 +42,14 @@ class Collisions():
                 collision_types['left'] = True
             dyn_entity.rect.center=dyn_entity.hitbox.center
 
+
         #move in y every dynamic sprite
         for entity in dynamic_entties.sprites():
             entity.rect.center = [entity.rect.center[0] + 0, round(entity.rect.center[1] + entity.movement[1])]
-            entity.hitbox.center = entity.rect.center
-            collided=Collisions.collided#collide hitbox
+            entity.hitbox.center = entity.rect.center#follow with hitbox
 
+        collided=Collisions.collided#make the hitbox collide and not rect
+        #check for collisions and get a dictionary of sprites that collides
         collisions=pygame.sprite.groupcollide(dynamic_entties,static_enteties,False,False,collided)
         for dyn_entity, stat_entity in collisions.items():
             if dyn_entity.movement[1]>0:#going down
@@ -61,8 +64,8 @@ class Collisions():
         return collision_types
 
     @staticmethod
-    def collided(entity,static_enteties):
-        return entity.hitbox.colliderect(static_enteties.rect)
+    def collided(dynamic_entties,static_enteties):
+        return dynamic_entties.hitbox.colliderect(static_enteties.rect)
 
 class Physics():
     def __init__(self):
