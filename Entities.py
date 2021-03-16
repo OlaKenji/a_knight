@@ -69,14 +69,16 @@ class player(pygame.sprite.Sprite):
         super().__init__()
         self.image = self.images[1]
         self.rect = self.image.get_rect(center=pos)
-        self.rect=self.rect.inflate(-20,-2)
-        #self.hitbox = self.rect.copy()
+        self.hitbox=pygame.Rect(pos[0],pos[1],20,48)
+        self.rect.center=self.hitbox.center#match the hitboxes
+
         self.movement=[0,0]
         self.dir=[1,0]#[horixontal (right 1, left -1),vertical (up 1, down -1)]
         self.alive=True
         self.frame={'stand':1,'run':1,'sword':1,'jump':1}
         self.action={'stand':True,'run':False,'sword':False,'jump':False}
         self.frame_timer={'run':40,'sword':18,'jump':21}
+
 
     def move(self):#define the movements
 
@@ -119,6 +121,7 @@ class player(pygame.sprite.Sprite):
 
     def update(self,pos):
         self.rect.topleft = [self.rect.topleft[0] + pos[0], self.rect.topleft[1] + pos[1]]
+        self.hitbox.center=self.rect.center
 
 class Block(pygame.sprite.Sprite):
 
@@ -143,17 +146,17 @@ class Items():
         super().__init__()
 
         self.movement=[0,0]
-        self.rect=pygame.Rect(entity.rect.midright[0],entity.rect.midright[1],10,15)
+        self.rect=pygame.Rect(entity.hitbox.midright[0],entity.hitbox.midright[1],10,15)
 
     def update(self,entity):
         if entity.dir[0]>0 and entity.dir[1]==0:#right
-            self.rect=pygame.Rect(entity.rect.midright[0],entity.rect.midright[1]-5,10,20)
+            self.rect=pygame.Rect(entity.hitbox.midright[0],entity.hitbox.midright[1],10,20)
         elif entity.dir[0]<0 and entity.dir[1]==0:#left
-            self.rect=pygame.Rect(entity.rect.midleft[0]-10,entity.rect.midleft[1]-5,10,20)
+            self.rect=pygame.Rect(entity.hitbox.midleft[0]-10,entity.hitbox.midleft[1],10,20)
         elif entity.dir[1]>0:#up
-            self.rect=pygame.Rect(entity.rect.midtop[0],entity.rect.midtop[1]-20,10,20)
+            self.rect=pygame.Rect(entity.hitbox.midtop[0],entity.hitbox.midtop[1]-50,10,20)
         elif entity.dir[1]<0:#down
-            self.rect=pygame.Rect(entity.rect.midtop[0],entity.rect.midtop[1]+50,10,20)
+            self.rect=pygame.Rect(entity.hitbox.midtop[0],entity.hitbox.midtop[1]+50,10,20)
 #class Sword(Items):
 #    def __init__(self,entity):
 #        super().__init__()

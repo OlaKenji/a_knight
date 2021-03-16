@@ -51,6 +51,7 @@ while True:
     Action.swing_sword(hero,platforms)
 
     pygame.draw.rect(screen, (255,0,0), knight.rect,2)#testing hitbox
+    pygame.draw.rect(screen, (0,255,0), knight.hitbox,2)
 
     draw()
     pygame.display.update()#update after every change
