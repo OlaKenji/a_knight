@@ -7,6 +7,7 @@ class Tilemap():
         self.tile_size=16
         self.chunk_size=10
         self.scroll=[0,0]
+        self.true_scroll=[0,0]
         self.total_disatnce=[0,0]
         self.chunks={}#placeholder to store the chunks
         self.keys=[]
@@ -35,8 +36,8 @@ class Tilemap():
 
     def chunk_distance(self):
         chunk_distance={}
-        self.total_disatnce[0]-=self.scroll[0]#total distance
-        self.total_disatnce[1]-=self.scroll[1]#total distance
+        self.total_disatnce[0]+=self.scroll[0]#total distance
+        self.total_disatnce[1]+=self.scroll[1]#total distance
 
         for key in self.chunks.keys():
             y=int(key.split(';')[0])#y

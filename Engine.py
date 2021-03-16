@@ -42,10 +42,9 @@ class Collisions():
                 collision_types['left'] = True
             dyn_entity.rect.center=dyn_entity.hitbox.center
 
-
         #move in y every dynamic sprite
         for entity in dynamic_entties.sprites():
-            entity.rect.center = [entity.rect.center[0] + 0, round(entity.rect.center[1] + entity.movement[1])]
+            entity.rect.center = [entity.rect.center[0], round(entity.rect.center[1] + entity.movement[1])]
             entity.hitbox.center = entity.rect.center#follow with hitbox
 
         collided=Collisions.collided#make the hitbox collide and not rect
@@ -88,8 +87,7 @@ class Physics():
                 if entity.velocity[0]<-10:#max speed
                     entity.velocity[0]=-10
 
-            entity.velocity[0]=round(entity.velocity[0]-0.2*entity.velocity[0],2)#friction
-
+            entity.velocity[0]=entity.velocity[0]-0.2*entity.velocity[0]#friction
             entity.movement[0]=entity.velocity[0]#set the horizontal velocity
 
 class Animation():

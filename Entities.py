@@ -62,7 +62,7 @@ class player(pygame.sprite.Sprite):
 
 
     velocity=[0,0]
-    acceleration=[2,1]
+    acceleration=[1,1]
     friction=0.2
 
     def __init__(self,pos):
@@ -128,7 +128,7 @@ class Block(pygame.sprite.Sprite):
     images = {1 : pygame.image.load("sprites/block_castle.png"),
              2 : pygame.image.load("sprites/block_question.png")}
 
-    def __init__(self,img,pos,chunk_key):
+    def __init__(self,img,pos,chunk_key=False):
         super().__init__()
         self.image = self.images[img]
         self.rect = self.image.get_rect()
@@ -157,7 +157,7 @@ class Items():
             self.rect=pygame.Rect(entity.hitbox.midtop[0],entity.hitbox.midtop[1]-50,10,20)
         elif entity.dir[1]<0:#down
             self.rect=pygame.Rect(entity.hitbox.midtop[0],entity.hitbox.midtop[1]+50,10,20)
-            
+
 #class Sword(Items):
 #    def __init__(self,entity):
 #        super().__init__()
