@@ -23,7 +23,7 @@ def draw():
     hero.draw(screen)
 
 def scrolling():
-    map.true_scroll[0]+=(knight.rect.center[0]-map.true_scroll[0]-410)
+    map.true_scroll[0]+=(knight.rect.center[0]-4*map.true_scroll[0]-410)/20
     map.true_scroll[1]+=(knight.rect.center[1]-map.true_scroll[1]-328)
 
     map.scroll=map.true_scroll.copy()
@@ -44,10 +44,9 @@ while True:
 
     Engine.Physics.movement(hero)
     Engine.Collisions.check_collisions(hero,platforms)
-
     Engine.Animation.set_img(hero)
 
-    Action.swing_sword(hero,platforms)
+    Action.swing_sword(hero,platforms,screen)
 
     pygame.draw.rect(screen, (255,0,0), knight.rect,2)#checking hitbox
     pygame.draw.rect(screen, (0,255,0), knight.hitbox,2)#checking hitbox

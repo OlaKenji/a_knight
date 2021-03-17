@@ -87,7 +87,7 @@ class Physics():
                 if entity.velocity[0]<-10:#max speed
                     entity.velocity[0]=-10
 
-            entity.velocity[0]=entity.velocity[0]-0.2*entity.velocity[0]#friction
+            entity.velocity[0]=entity.velocity[0]-entity.friction*entity.velocity[0]#friction
             entity.movement[0]=entity.velocity[0]#set the horizontal velocity
 
 class Animation():

@@ -70,7 +70,7 @@ class player(pygame.sprite.Sprite):
         self.image = self.images[1]
         self.rect = self.image.get_rect(center=pos)
         self.hitbox=pygame.Rect(pos[0],pos[1],20,48)
-        self.rect.center=self.hitbox.center#match the hitboxes
+        self.rect.center=self.hitbox.center#match the positions of hitboxes
 
         self.movement=[0,0]
         self.dir=[1,0]#[horixontal (right 1, left -1),vertical (up 1, down -1)]
@@ -130,7 +130,7 @@ class Block(pygame.sprite.Sprite):
 
     def __init__(self,img,pos,chunk_key=False):
         super().__init__()
-        self.image = self.images[img]
+        self.image = self.images[img].convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.topleft = pos
         #self.hitbox = self.rect.inflate(0,0)
@@ -150,13 +150,13 @@ class Items():
 
     def update(self,entity):
         if entity.dir[0]>0 and entity.dir[1]==0:#right
-            self.rect=pygame.Rect(entity.hitbox.midright[0],entity.hitbox.midright[1],10,20)
+            self.rect=pygame.Rect(entity.hitbox.midright[0],entity.hitbox.midright[1]-20,40,40)
         elif entity.dir[0]<0 and entity.dir[1]==0:#left
-            self.rect=pygame.Rect(entity.hitbox.midleft[0]-10,entity.hitbox.midleft[1],10,20)
+            self.rect=pygame.Rect(entity.hitbox.midleft[0]-40,entity.hitbox.midleft[1]-20,40,40)
         elif entity.dir[1]>0:#up
-            self.rect=pygame.Rect(entity.hitbox.midtop[0],entity.hitbox.midtop[1]-50,10,20)
+            self.rect=pygame.Rect(entity.hitbox.midtop[0]-10,entity.hitbox.midtop[1]-20,20,20)
         elif entity.dir[1]<0:#down
-            self.rect=pygame.Rect(entity.hitbox.midtop[0],entity.hitbox.midtop[1]+50,10,20)
+            self.rect=pygame.Rect(entity.hitbox.midtop[0]-20,entity.hitbox.midtop[1]+50,40,20)
 
 #class Sword(Items):
 #    def __init__(self,entity):

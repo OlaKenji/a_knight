@@ -1,14 +1,15 @@
 import pygame
 import Entities
 
-def swing_sword(sword_enteties,targets):
+def swing_sword(sword_enteties,targets,screen):
     for entity in sword_enteties.sprites():#go through the group
         if entity.action['sword']:#if swinning sword
             sword=Entities.Items(entity)#make a sword hitbox
 
             #update sword position based on swing direction
             sword.update(entity)
-
+            pygame.draw.rect(screen, (0,0,255), sword.rect,2)#checking hitbox
+            
             #sword collision?
             collisions=pygame.sprite.spritecollideany(sword,targets)
 
