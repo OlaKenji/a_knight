@@ -73,7 +73,6 @@ class Physics():
     @staticmethod
     def movement(dynamic_entties):
         for entity in dynamic_entties.sprites():
-
             entity.movement[1]+=entity.acceleration[1]#gravity
             if entity.movement[1]>5:#set a y max speed
                 entity.movement[1]=5
@@ -100,53 +99,60 @@ class Animation():
         for entity in enteties.sprites():#go through the group
 
             #need to order according to priority
-            #could maybe generalise this code into a loop?
 
-            #sword
-            if entity.action['sword']==True and entity.dir[1]>0 and entity.dir[0]>0:#sword up-right
-                entity.image=entity.images_sword[entity.frame['sword']//3+13]
-                entity.frame['sword']+=1
-            elif entity.action['sword']==True and entity.dir[1]>0 and entity.dir[0]<0:#sword up-left
-                entity.image=entity.images_sword[entity.frame['sword']//3+19]
-                entity.frame['sword']+=1
-            elif entity.action['sword']==True and entity.dir[0]>0 and entity.dir[1]==0:#sword right and not up or down
-                entity.image=entity.images_sword[entity.frame['sword']//3+1]
-                entity.frame['sword']+=1
-            elif entity.action['sword']==True and entity.dir[0]<0 and entity.dir[1]==0:#sword left and not up or down
-                entity.image=entity.images_sword[entity.frame['sword']//3+7]
-                entity.frame['sword']+=1
-            elif entity.action['sword']==True and entity.dir[1]<0:# down
-                entity.image=entity.images_sword[entity.frame['sword']//3+25]
-                entity.frame['sword']+=1
+            if not entity.action['death']:#if not dead
 
-            #jump
-            elif entity.action['jump']==True and not entity.action['sword'] and entity.dir[0]>0:#jump without sword right
-                entity.image=entity.images[entity.frame['jump']//7+21]
-                entity.frame['jump']+=1
-            elif entity.action['jump']==True and not entity.action['sword'] and entity.dir[0]<0:#jump without sword left
-                entity.image=entity.images[entity.frame['jump']//7+24]
-                entity.frame['jump']+=1
-            #run
-            elif entity.action['run']==True and entity.dir[0]>0:#run right
-                entity.image=entity.images[entity.frame['run']//4+1]
-                entity.frame['run']+=1
-            elif entity.action['run']==True and entity.dir[0]<0:#run left
-                entity.image=entity.images[entity.frame['run']//4+11]
-                entity.frame['run']+=1
+                if entity.action['sword']:#sword
+                    if entity.dir[1]>0 and entity.dir[0]>0:#sword up-right
+                        entity.image=entity.images_sword[entity.frame['sword']//3+13]
+                        entity.frame['sword']+=1
+                    elif entity.dir[1]>0 and entity.dir[0]<0:#sword up-left
+                        entity.image=entity.images_sword[entity.frame['sword']//3+19]
+                        entity.frame['sword']+=1
+                    elif entity.dir[0]>0 and entity.dir[1]==0:#sword right and not up or down
+                        entity.image=entity.images_sword[entity.frame['sword']//3+1]
+                        entity.frame['sword']+=1
+                    elif entity.dir[0]<0 and entity.dir[1]==0:#sword left and not up or down
+                        entity.image=entity.images_sword[entity.frame['sword']//3+7]
+                        entity.frame['sword']+=1
+                    elif entity.dir[1]<0:# down
+                        entity.image=entity.images_sword[entity.frame['sword']//3+25]
+                        entity.frame['sword']+=1
 
-            #stand
-            elif entity.action['stand']==True and entity.dir[0]>0:#stand right
-                entity.image=entity.images[1]
-            elif entity.action['stand']==True and entity.dir[0]<0:#stand left
-                entity.image=entity.images[11]
+                    #reset frames
+                    if entity.frame['sword']==entity.frame_timer['sword']:
+                        entity.frame['sword']=1
+                        entity.action['sword']=False
 
-            #reset frames
-            if entity.frame['sword']==entity.frame_timer['sword']:
-                entity.frame['sword']=1
-                entity.action['sword']=False
+                elif not entity.action['sword']:#not sword
+                    #jump
+                    if entity.action['jump']==True and entity.dir[0]>0:#jump without sword right
+                        entity.image=entity.images[entity.frame['jump']//7+21]
+                        entity.frame['jump']+=1
+                    elif entity.action['jump']==True and entity.dir[0]<0:#jump without sword left
+                        entity.image=entity.images[entity.frame['jump']//7+24]
+                        entity.frame['jump']+=1
+                    #run
+                    elif entity.action['run']==True and entity.dir[0]>0:#run right
+                        entity.image=entity.images[entity.frame['run']//4+1]
+                        entity.frame['run']+=1
+                    elif entity.action['run']==True and entity.dir[0]<0:#run left
+                        entity.image=entity.images[entity.frame['run']//4+11]
+                        entity.frame['run']+=1
+                    #stand
+                    elif entity.action['stand']==True and entity.dir[0]>0:#stand right
+                        entity.image=entity.images[1]
+                    elif entity.action['stand']==True and entity.dir[0]<0:#stand left
+                        entity.image=entity.images[11]
 
-            if entity.frame['run']==entity.frame_timer['run']:
-                entity.frame['run']=1
-
-            if entity.frame['jump']==entity.frame_timer['jump']:
-                entity.frame['jump']=1
+                    #reset frames
+                    if entity.frame['run']==entity.frame_timer['run']:
+                        entity.frame['run']=1
+                    if entity.frame['jump']==entity.frame_timer['jump']:
+                        entity.frame['jump']=1
+                        
+            else:#if dead
+                entity.image=entity.images[entity.frame['death']//4+27]
+                entity.frame['death']+=1
+                if entity.frame['death']==entity.frame_timer['death']:
+                    entity.kill()#remove the sprite after animation

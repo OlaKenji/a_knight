@@ -1,6 +1,7 @@
 import pygame, csv, Entities, math
 
 platforms = pygame.sprite.Group()
+Enemies = pygame.sprite.Group()
 
 class Tilemap():
     def __init__(self):
@@ -103,8 +104,11 @@ class Tilemap():
                 elif tile=='2':
                     new_block = Entities.Block(2,[x*self.tile_size,y*self.tile_size])
                     platforms.add(new_block)
+                elif tile=='e':
+                    new_Enemies = Entities.Enemy_1([x*self.tile_size,y*self.tile_size])
+                    Enemies.add(new_Enemies)
                 x+=1
             y+=1
         self.map_w,self.map_h=x*self.tile_size,y*self.tile_size#map size
 
-        return platforms
+        return platforms, Enemies
