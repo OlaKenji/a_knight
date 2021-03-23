@@ -101,8 +101,16 @@ class Animation():
             #need to order according to priority
 
             if not entity.action['death']:#if not dead
+                if entity.action['dmg']:#if took dmg
+                    entity.image=entity.images[entity.frame['dmg']//10+36]
+                    entity.frame['dmg']+=1
 
-                if entity.action['sword']:#sword
+                #reset frames
+                    if entity.frame['dmg']==entity.frame_timer['dmg']:
+                        entity.frame['dmg']=1
+                        entity.action['dmg']=False
+
+                elif entity.action['sword']:#sword
                     if entity.dir[1]>0 and entity.dir[0]>0:#sword up-right
                         entity.image=entity.images_sword[entity.frame['sword']//3+13]
                         entity.frame['sword']+=1
@@ -150,7 +158,7 @@ class Animation():
                         entity.frame['run']=1
                     if entity.frame['jump']==entity.frame_timer['jump']:
                         entity.frame['jump']=1
-                        
+
             else:#if dead
                 entity.image=entity.images[entity.frame['death']//4+27]
                 entity.frame['death']+=1

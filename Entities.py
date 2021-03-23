@@ -1,6 +1,6 @@
 import pygame, sys
 
-class Enteties(pygame.sprite.Sprite):
+class Organisms(pygame.sprite.Sprite):
 
     acceleration=[1,1]
     friction=0.2
@@ -8,15 +8,15 @@ class Enteties(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.movement=[0,0]
-        self.frame={'stand':1,'run':1,'sword':1,'jump':1,'death':1}
-        self.action={'stand':True,'run':False,'sword':False,'jump':False,'death':False}
+        self.frame={'stand':1,'run':1,'sword':1,'jump':1,'death':1,'dmg':1}
+        self.action={'stand':True,'run':False,'sword':False,'jump':False,'death':False,'dmg':False}
         self.dir=[1,0]#[horixontal (right 1, left -1),vertical (up 1, down -1)]
 
     def update(self,pos):
         self.rect.topleft = [self.rect.topleft[0] + pos[0], self.rect.topleft[1] + pos[1]]
         self.hitbox.center=self.rect.center
 
-class Enemy_1(Enteties):
+class Enemy_1(Organisms):
     images={1: pygame.image.load("sprites/HeroKnight_Run_0.png"),#right
             2: pygame.image.load("sprites/HeroKnight_Run_1.png"),#right
             3: pygame.image.load("sprites/HeroKnight_Run_2.png"),#right
@@ -43,15 +43,17 @@ class Enemy_1(Enteties):
             24: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Jump_0.png"),True,False),#jumpleft
             25: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Jump_1.png"),True,False),#jumpleft
             26: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Jump_2.png"),True,False),#jumpleft
-            27: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_1.png"),True,False),#death
-            28: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_2.png"),True,False),#death
-            29: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_3.png"),True,False),#death
-            30: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_4.png"),True,False),#death
-            31: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_5.png"),True,False),#death
-            32: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_6.png"),True,False),#death
-            33: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_7.png"),True,False),#death
-            34: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_8.png"),True,False),#death
-            35: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_9.png"),True,False)}#death
+            27: pygame.image.load("sprites/HeroKnight_Death_1.png"),#death
+            28: pygame.image.load("sprites/HeroKnight_Death_2.png"),#death
+            29: pygame.image.load("sprites/HeroKnight_Death_3.png"),#death
+            30: pygame.image.load("sprites/HeroKnight_Death_4.png"),#death
+            31: pygame.image.load("sprites/HeroKnight_Death_5.png"),#death
+            32: pygame.image.load("sprites/HeroKnight_Death_6.png"),#death
+            33: pygame.image.load("sprites/HeroKnight_Death_7.png"),#death
+            34: pygame.image.load("sprites/HeroKnight_Death_8.png"),#death
+            35: pygame.image.load("sprites/HeroKnight_Death_9.png"),#death
+            36: pygame.image.load("sprites/HeroKnight_Hurt_1.png"),#dmg
+            37: pygame.image.load("sprites/HeroKnight_Hurt_2.png")}#dmg
 
     images_sword={1: pygame.image.load("sprites/HeroKnight_Attack3_0.png"),#right
                   2: pygame.image.load("sprites/HeroKnight_Attack3_1.png"),#right
@@ -92,26 +94,25 @@ class Enemy_1(Enteties):
         self.hitbox=pygame.Rect(pos[0],pos[1],20,48)
         self.rect.center=self.hitbox.center#match the positions of hitboxes
         self.health=100
-        self.frame_timer={'run':40,'sword':18,'jump':21,'death':36}
+        self.frame_timer={'run':40,'sword':18,'jump':21,'death':36,'dmg':20}
         self.dmg=10
 
     @staticmethod
     def move(player,group):
         for entity in group.sprites():#go through the group
             distance=(entity.rect[0]-player.rect[0])#follow the player
-            if distance<0:
+            if distance<0 and not entity.action['death']:
                 entity.dir[0]=1
                 entity.action['run']=True
                 entity.action['stand']=False
-            else:
+            elif distance>0 and not entity.action['death']:
                 entity.dir[0]=-1
                 entity.action['run']=True
                 entity.action['stand']=False
             if abs(distance)<50:#swing sword when close
                 entity.action['sword']=True
 
-
-class Player(Enteties):
+class Player(Organisms):
 
     images={1: pygame.image.load("sprites/HeroKnight_Run_0.png"),#right
             2: pygame.image.load("sprites/HeroKnight_Run_1.png"),#right
@@ -139,15 +140,17 @@ class Player(Enteties):
             24: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Jump_0.png"),True,False),#jumpleft
             25: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Jump_1.png"),True,False),#jumpleft
             26: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Jump_2.png"),True,False),#jumpleft
-            27: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_1.png"),True,False),#death
-            28: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_2.png"),True,False),#death
-            29: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_3.png"),True,False),#death
-            30: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_4.png"),True,False),#death
-            31: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_5.png"),True,False),#death
-            32: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_6.png"),True,False),#death
-            33: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_7.png"),True,False),#death
-            34: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_8.png"),True,False),#death
-            35: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Death_9.png"),True,False)}#death
+            27: pygame.image.load("sprites/HeroKnight_Death_1.png"),#death
+            28: pygame.image.load("sprites/HeroKnight_Death_2.png"),#death
+            29: pygame.image.load("sprites/HeroKnight_Death_3.png"),#death
+            30: pygame.image.load("sprites/HeroKnight_Death_4.png"),#death
+            31: pygame.image.load("sprites/HeroKnight_Death_5.png"),#death
+            32: pygame.image.load("sprites/HeroKnight_Death_6.png"),#death
+            33: pygame.image.load("sprites/HeroKnight_Death_7.png"),#death
+            34: pygame.image.load("sprites/HeroKnight_Death_8.png"),#death
+            35: pygame.image.load("sprites/HeroKnight_Death_9.png"),#death
+            36: pygame.image.load("sprites/HeroKnight_Hurt_1.png"),#dmg
+            37: pygame.image.load("sprites/HeroKnight_Hurt_2.png")}#dmg
 
     images_sword={1: pygame.image.load("sprites/HeroKnight_Attack3_0.png"),#right
                   2: pygame.image.load("sprites/HeroKnight_Attack3_1.png"),#right
@@ -188,7 +191,7 @@ class Player(Enteties):
         self.hitbox=pygame.Rect(pos[0],pos[1],20,48)
         self.rect.center=self.hitbox.center#match the positions of hitboxes
         self.health=50
-        self.frame_timer={'run':40,'sword':18,'jump':21,'death':36}
+        self.frame_timer={'run':40,'sword':18,'jump':21,'death':36,'dmg':20}
         self.dmg=50
 
     def move(self):#define the movements
@@ -229,7 +232,7 @@ class Player(Enteties):
                 if event.key == pygame.K_DOWN:
                     self.dir[1]=0
 
-class Block(Enteties):
+class Block(Organisms):
 
     images = {1 : pygame.image.load("sprites/block_castle.png"),
              2 : pygame.image.load("sprites/block_question.png")}
@@ -256,7 +259,7 @@ class Items():
         elif entity.dir[1]>0:#up
             self.rect=pygame.Rect(entity.hitbox.midtop[0]-10,entity.hitbox.midtop[1]-20,20,20)
         elif entity.dir[1]<0:#down
-            self.rect=pygame.Rect(entity.hitbox.midtop[0]-20,entity.hitbox.midtop[1]+50,40,20)
+            self.rect=pygame.Rect(entity.hitbox.midtop[0]-10,entity.hitbox.midtop[1]+50,20,20)
 
 #class Sword(Items):
 #    def __init__(self,entity):

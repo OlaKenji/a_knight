@@ -35,7 +35,7 @@ def scrolling():
     map.scroll[0]=int(map.scroll[0])
     map.scroll[1]=int(map.scroll[1])
 
-    if knight.action['death']:#when kngiht is dead, don't move screen
+    if knight.action['death']:#if kngiht is dead, don't move screen
         map.scroll[0]=0
         map.scroll[1]=0
 

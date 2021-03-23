@@ -24,14 +24,16 @@ def swing_sword(sword_enteties,platforms,enemies,screen):
                     entity.velocity[0]=-10#knock back
                 elif entity.dir[0]<0:#left
                     entity.velocity[0]=10#knock back
-            if collision_ene and not collision_ene.action['death']:#if hit alive enemy
+            if collision_ene and not collision_ene.action['death'] and not collision_ene.action['dmg']:#if hit alive enemy
                 collision_ene.health-=entity.dmg
+                collision_ene.action['dmg']=True
                 if entity.dir[0]>0:#right
                     collision_ene.velocity[0]=10#knock back
                 elif entity.dir[0]<0:#left
                     collision_ene.velocity[0]=-10#knock back
                 if collision_ene.health<=0:#if 0 health
                     collision_ene.action['death']=True
+                    collision_ene.action['run']=False
 
 def collided(sword,target):
     return sword.rect.colliderect(target.hitbox)
