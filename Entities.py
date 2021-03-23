@@ -107,11 +107,11 @@ class Enemy_1(Organisms):
             distance[0]=(entity.rect[0]-player.rect[0])#follow the player
             distance[1]=(entity.rect[1]-player.rect[1])#follow the player
 
-            if abs(distance[0])>200 and abs(distance[1])>50 or player.action['death']:#don't do anything if far away or player dead
+            if abs(distance[0])>200 and abs(distance[1])>50 or player.action['death'] or entity.action['dmg']:#don't do anything if far away, or player dead or while taking dmg
                 entity.action['run']=False
                 entity.action['stand']=True
 
-            elif distance[0]<0 and not entity.action['death'] and abs(distance[1])<40:#if player on right
+            elif distance[0]<0 and not entity.action['death'] and abs(distance[1])<40:#if player close on right
                 entity.dir[0]=1
                 entity.action['run']=True
                 entity.action['stand']=False
@@ -119,7 +119,7 @@ class Enemy_1(Organisms):
                     entity.action['run']=False
                     entity.action['stand']=True
 
-            elif distance[0]>0 and not entity.action['death'] and abs(distance[1])<40:#if player on left
+            elif distance[0]>0 and not entity.action['death'] and abs(distance[1])<40:#if player close on left
                 entity.dir[0]=-1
                 entity.action['run']=True
                 entity.action['stand']=False
@@ -129,7 +129,6 @@ class Enemy_1(Organisms):
 
             if abs(distance[0])<40 and abs(distance[1])<40:#swing sword when close
                 entity.action['sword']=True
-
 
 class Player(Organisms):
 
