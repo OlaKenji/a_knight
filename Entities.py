@@ -112,6 +112,9 @@ class Enemy_1(Organisms):
                 entity.action['run']=False
                 entity.action['stand']=True
 
+            elif abs(distance[0])>500 or abs(distance[1])>500:#remove the enmy if far away
+                entity.kill()
+
             elif distance[0]<0 and not entity.action['death'] and abs(distance[1])<40:#if player close on right
                 entity.dir[0]=1
                 entity.action['run']=True
