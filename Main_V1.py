@@ -17,10 +17,10 @@ hero.add(knight)
 
 map=Level.Tilemap()
 map.define_chunks('./Tiled/Level1.csv')
-tePlatforms,teEnemies=map.load_tiles()
 
-platforms.add(tePlatforms)#whole map
-enemies.add(teEnemies)#whole map
+#tePlatforms,teEnemies=map.load_tiles('./Tiled/Level1.csv')
+#platforms.add(tePlatforms)#whole map
+#enemies.add(teEnemies)#whole map
 
 def draw():
     platforms.draw(screen)
@@ -46,7 +46,7 @@ def scrolling():
 while True:
     screen.fill((255,255,255))#fill screen
 
-    #platforms=map.load_chunks()
+    platforms,enemies=map.load_chunks()
 
     scrolling()
 

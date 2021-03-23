@@ -73,6 +73,10 @@ class Tilemap():
                         elif tile=='2':
                             new_block = Entities.Block(2,[tile_x*self.tile_size+self.chunk_size*self.tile_size*x-int(round(self.total_disatnce[0])),tile_y*self.tile_size+self.chunk_size*self.tile_size*y-int(round(self.total_disatnce[1]))],key)
                             platforms.add(new_block)
+                        elif tile=='e':
+                            new_Enemies = Entities.Enemy_1([tile_x*self.tile_size+self.chunk_size*self.tile_size*x-int(round(self.total_disatnce[0])),tile_y*self.tile_size+self.chunk_size*self.tile_size*y-int(round(self.total_disatnce[1]))],1)
+                            Enemies.add(new_Enemies)
+
                         tile_x+=1
                     tile_y+=1
             elif chunk_distances[key]>self.chunk_render_distance and key in self.keys:
@@ -83,7 +87,7 @@ class Tilemap():
                 #update key
                 self.keys.remove(key)
 
-        return platforms
+        return platforms, Enemies
 #________________chunks#
 
 
@@ -91,8 +95,8 @@ class Tilemap():
 
 
     #load everything at once
-    def load_tiles(self):
-        map=self.read_csv('./Tiled/Level1.csv')
+    def load_tiles(self,path):
+        map=self.read_csv(path)
         x=0
         y=0
         for row in map:

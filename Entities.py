@@ -93,8 +93,9 @@ class Enemy_1(Organisms):
         self.rect = self.image.get_rect(center=pos)
         self.hitbox=pygame.Rect(pos[0],pos[1],20,48)
         self.rect.center=self.hitbox.center#match the positions of hitboxes
-        self.health=100
         self.frame_timer={'run':40,'sword':18,'jump':21,'death':36,'dmg':20}
+
+        self.health=100
         self.dmg=10
         self.ID=ID
 
