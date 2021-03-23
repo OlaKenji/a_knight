@@ -60,8 +60,8 @@ while True:
     Engine.Animation.set_img(hero)
     Engine.Animation.set_img(enemies)
 
-    Action.swing_sword(hero,platforms,enemies,screen)
-    Action.swing_sword(enemies,platforms,hero,screen)
+    Action.swing_sword(hero,platforms,enemies,screen)#sword swinger, target1,target2
+    Action.swing_sword(enemies,platforms,hero,screen)#sword swinger, target1,target2
 
     pygame.draw.rect(screen, (255,0,0), knight.rect,2)#checking hitbox
     pygame.draw.rect(screen, (0,255,0), knight.hitbox,2)#checking hitbox

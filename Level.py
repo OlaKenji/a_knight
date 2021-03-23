@@ -105,7 +105,7 @@ class Tilemap():
                     new_block = Entities.Block(2,[x*self.tile_size,y*self.tile_size])
                     platforms.add(new_block)
                 elif tile=='e':
-                    new_Enemies = Entities.Enemy_1([x*self.tile_size,y*self.tile_size])
+                    new_Enemies = Entities.Enemy_1([x*self.tile_size,y*self.tile_size],1)
                     Enemies.add(new_Enemies)
                 x+=1
             y+=1

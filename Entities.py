@@ -87,7 +87,7 @@ class Enemy_1(Organisms):
                   30: pygame.transform.flip(pygame.image.load("sprites/HeroKnight_Attack2_5.png"),True, False)}#down
 
     velocity=[0,0]
-    def __init__(self,pos):
+    def __init__(self,pos,ID):
         super().__init__()
         self.image = self.images[1]
         self.rect = self.image.get_rect(center=pos)
@@ -96,21 +96,40 @@ class Enemy_1(Organisms):
         self.health=100
         self.frame_timer={'run':40,'sword':18,'jump':21,'death':36,'dmg':20}
         self.dmg=10
+        self.ID=ID
 
     @staticmethod
-    def move(player,group):
-        for entity in group.sprites():#go through the group
-            distance=(entity.rect[0]-player.rect[0])#follow the player
-            if distance<0 and not entity.action['death']:
+    def move(player,group):#maybe want different AI types depending on eneymy type
+        enemy_1_list = [i for i in group.sprites() if i.ID==1]#extract all enemy type ID
+
+        for entity in enemy_1_list:#go through the enemy type
+            distance=[0,0]
+            distance[0]=(entity.rect[0]-player.rect[0])#follow the player
+            distance[1]=(entity.rect[1]-player.rect[1])#follow the player
+
+            if abs(distance[0])>200 and abs(distance[1])>50 or player.action['death']:#don't do anything if far away or player dead
+                entity.action['run']=False
+                entity.action['stand']=True
+
+            elif distance[0]<0 and not entity.action['death'] and abs(distance[1])<40:#if player on right
                 entity.dir[0]=1
                 entity.action['run']=True
                 entity.action['stand']=False
-            elif distance>0 and not entity.action['death']:
+                if distance[0]>-40:#don't get too close
+                    entity.action['run']=False
+                    entity.action['stand']=True
+
+            elif distance[0]>0 and not entity.action['death'] and abs(distance[1])<40:#if player on left
                 entity.dir[0]=-1
                 entity.action['run']=True
                 entity.action['stand']=False
-            if abs(distance)<50:#swing sword when close
+                if distance[0]<40:#don't get too close
+                    entity.action['run']=False
+                    entity.action['stand']=True
+
+            if abs(distance[0])<40 and abs(distance[1])<40:#swing sword when close
                 entity.action['sword']=True
+
 
 class Player(Organisms):
 
